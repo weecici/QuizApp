@@ -1,278 +1,194 @@
-let startBtn = document.querySelector(".start-btn"),
-instructionCard = document.querySelector(".instruction"),
-instructionExit = document.querySelectorAll(".instruction button")[0],
-startQuizBtn = document.querySelectorAll(".instruction button")[1],
-wrapper = document.querySelector(".wrapper"),
-nxtBtn = document.querySelector(".btn button"),
-resultCard = document.querySelector(".result-card"),
-time = document.querySelectorAll(".Timer p")[1],
-progressBar = document.querySelector(".inner"),
-questionEl = document.querySelector(".question-container"),
-answerContainer = document.querySelector(".option-container"),
-currentQuestionNum = document.querySelector(".current-question"),
-totalQuestion = document.querySelector(".total-question"),
-totalScore = document.querySelector(".total-score .value"),
-yourScore = document.querySelector(".user-score .value"),
-unattempted = document.querySelector(".unattempted .value"),
-attempted = document.querySelector(".attempted .value"),
-wrong = document.querySelector(".wrong .value"),
-replayQuiz = document.querySelectorAll(".score-btn button")[0]
-exitQuiz = document.querySelectorAll(".score-btn button")[1];
+document.getElementById('surveyForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const relation = document.getElementById('relation').value;
+  document.getElementById('surveyForm').classList.add('hidden');
+  renderQuestion(relation);
+});
+
+const questions = {
+  common: [
+    {
+      text: "Q1. Mô tả chung về sự ảnh hưởng của mối quan hệ này đến việc học của bạn?",
+      choices: [
+        { text: "Rất tích cực", scores: [10, 10, 10, -5, -5, -5] },
+        { text: "Tích cực", scores: [8, 0, 8, -3, -3, -3] },
+        { text: "Bình thường", scores: [5, 0, 5, -1, -1, -1] },
+        { text: "Tiêu cực", scores: [-5, -5, -5, 10, 10, 10] },
+      ],
+    },
+    {
+      text: "Q2. Mức độ dành thời gian của bạn cho mối quan hệ này?",
+      choices: [
+        { text: "Rất nhiều thời gian", scores: [0, 0, 10, 5, 0, 0] },
+        { text: "Đủ thời gian", scores: [0, 0, 8, 0, 0, 0] },
+        { text: "Ít thời gian", scores: [0, 0, 3, 3, 0, 0] },
+        { text: "Hầu như không dành thời gian", scores: [0, 0, 0, 10, 0, 0] },
+      ],
+    },
+  ],
+  family: [
+    // Add family-specific questions here
+  ],
+  love: [
+    // Add love-specific questions here
+  ],
+  friends: [
+    // Add friends-specific questions here
+  ],
+  teacher: [
+    // Add teacher-specific questions here
+  ],
+  colleague: [
+    // Add colleague-specific questions here
+  ],
+};
+
 let currentQuestion = 0;
-let userAnswers = [];
-let timer,
-  progressInterval,
-  width = 1,
-  score = 0,
-  attemptQuestion = 0,
-  unattemptedQuestion = 0,
-  wrongQuestion = 0;
+const categories = { M: 0, E: 0, Su: 0, D: 0, St: 0, C: 0 };
+const maxScores = { M: 20, E: 10, Su: 20, D: 15, St: 15, C: 15 };
 
+const surveyContainer = document.getElementById("surveyContainer");
+const resultsDiv = document.getElementById("results");
+const progressBar = document.getElementById("progress");
+const partNames = {
+  family: "Family Relationships",
+  love: "Romantic Relationships",
+  friends: "Friendship Dynamics",
+  teacher: "Teacher-Student Interactions",
+  colleague: "Colleague Relations",
+  common: "General Relationships",
+};
 
-
-
-
-replayQuiz.addEventListener("click",()=>{
-  resultCard.style.width = "0"
-  resultCard.style.transform = "scale(0)"
-  wrapper.style.transform = "scale(1)"
-  wrapper.style.width = "100%"
-  currentQuestion = 0
-  score = 0,
-    attemptQuestion = 0,
-    unattemptedQuestion = 0,
-    wrongQuestion = 0;
-  startQuiz();
-})
-exitQuiz.addEventListener("click",()=>{
-  resultCard.style.width = "0"
-  resultCard.style.transform = "scale(0)"
-  currentQuestion = 0
-  score = 0,
-    attemptQuestion = 0,
-    unattemptedQuestion = 0,
-    wrongQuestion = 0;
-    startBtn.style.transform = "scale(1)"
-    startBtn.style.width = "100%"
-})
-
-
-
-
-
-startBtn.addEventListener("click",()=>{
-  instructionCard.style.transform="scale(1)"
-  instructionCard.style.width="100%"
-  instructionCard.style.opacity="1"
-  startBtn.style.transform="scale(0)"
-  startBtn.style.width="0"
-})
-
-
-instructionExit.addEventListener("click",()=>{
-  instructionCard.style.transform = "scale(0)"
-  instructionCard.style.width = "0%"
-  startBtn.style.transform = "scale(1)"
-  startBtn.style.width = "100%"
-})
-
-
-startQuizBtn.addEventListener("click",()=>{
-  
-  wrapper.style.transform="scale(1)"
-  wrapper.style.width="100%"
-  instructionCard.style.transform = "scale(0)"
-  instructionCard.style.width = "0%"
-  startQuiz()
-})
-
-const questions = [  
-  {
-    question: "What type of game is Valorant?",
-    options: ["Battle Royale", "First-Person Shooter", "Real-Time Strategy", "Multiplayer Online Battle Arena"],
-    answer: "1"
-  },
-  {
-    question: "Which ability allows Jett to dash in Valorant?",
-    options: ["Cloudburst", "Tailwind", "Updraft", "Blade Storm"],
-    answer: "1"
-  },
-  {
-    question: "What is the maximum number of rounds in a competitive Valorant match?",
-    options: ["13", "25", "20", "26"],
-    answer: "0"
-  },
-  {
-    question: "What is the name of the map introduced in Episode 5, Act 1?",
-    options: ["Fracture", "Pearl", "Icebox", "Breeze"],
-    answer: "1"
-  },
-  {
-    question: "Which agent has the ultimate ability called 'Neural Theft'?",
-    options: ["Cypher", "Viper", "Skye", "Omen"],
-    answer: "0"
-  },
-  {
-    question: "Phoenix's 'Curveball' ability can be thrown in which directions?",
-    options: ["Left and Right", "Up and Down", "Forward and Backward", "Any Direction"],
-    answer: "0"
-  },
-  {
-    question: "Which agent is known for using poison-based abilities?",
-    options: ["Astra", "Viper", "Sage", "Reyna"],
-    answer: "1"
-  },
-  {
-    question: "What organization is responsible for creating Valorant Protocol?",
-    options: ["Kingdom Corporation", "Future Earth Initiative", "Omega Operators", "Radiant Coalition"],
-    answer: "0"
-  },
-  {
-    question: "What is the primary resource used to power abilities in Valorant's lore?",
-    options: ["Radianite", "Aetherium", "Cosmic Core", "Void Energy"],
-    answer: "0"
-  },
-  {
-    question: "Who is the first Radiant introduced as a Valorant agent?",
-    options: ["Omen", "Jett", "Sage", "Phoenix"],
-    answer: "3"
+function renderQuestion(relation) {
+  const allQuestions = [...questions.common, ...questions[relation]];
+  if (currentQuestion >= allQuestions.length) {
+    showResults();
+    return;
   }
-];
-
-
-function startQuiz() {
-    // Display the first question and its options
-    displayQuestion(currentQuestion);
-
-    // Start the timer
-    timer = setInterval(updateTimer, 1000);
-
-    // Update the progress bar
-    updateProgress();
-}
-
-
-function displayQuestion(questionIndex) {
-  updateProgress()
-    // Get the question and options from the questions array
-    let question = questions[questionIndex].question;
-    let options = questions[questionIndex].options;
-
-    // Display the question and options in their respective containers
-    questionEl.innerHTML = question;
-
-    for (let i = 0; i < options.length; i++) {
-        let option = `<option onclick = checkAnswer(${i})>${options[i]} </option>`
-        
-        answerContainer.insertAdjacentHTML("beforeend",option)
+   // Determine which part name to display
+   let partName = "Common Question Part";
+   if (currentQuestion >= 15) {
+    if(relation in partNames) {
+      partName = partNames[relation];
     }
+   }
+   
+   // Display the part name
+   document.getElementById("partName").innerText = partName;
+   document.getElementById("partName").style.display = "block"; // Show part name element
+
+  const progressPercent = ((currentQuestion / allQuestions.length) * 100).toFixed(0);
+  progressBar.style.width = `${progressPercent}%`;
+
+  const question = allQuestions[currentQuestion];
+  surveyContainer.innerHTML = `
+    <div class="question active">
+      <h3>${question.text}</h3>
+      ${question.choices
+        .map(
+          (choice, index) =>
+            `<button class="choice" data-scores="${choice.scores}">
+              ${choice.text}
+            </button>`
+        )
+        .join("")}
+    </div>
+  `;
+
+  document.querySelectorAll(".choice").forEach((button) => {
+    button.addEventListener("click", (e) => {
+      const scores = e.target.getAttribute("data-scores").split(",").map(Number);
+      updateScores(scores);
+      slideToNextQuestion(relation);
+    });
+  });
 }
 
+function slideToNextQuestion(relation) {
+  const currentElement = document.querySelector(".question.active");
+  currentElement.classList.remove("active");
+  currentElement.style.opacity = "0";
+  currentElement.style.transform = "translateX(-100%)";
 
-function checkAnswer(selectedIndex) {
-    // Get the selected answer from the user
-    attemptQuestion++;
-    answerContainer.style.pointerEvents="none"
-    clearInterval(timer);
-    let selectedAnswer = questions[currentQuestion].options[selectedIndex];
+  setTimeout(() => {
+    currentQuestion++;
+    renderQuestion(relation);
+  }, 500);
+}
 
-    // Get the correct answer from the questions array
-    let correctAnswer = questions[currentQuestion].options[questions[currentQuestion].answer];
+function updateScores(scores) {
+  categories.M += scores[0];
+  categories.E += scores[1];
+  categories.Su += scores[2];
+  categories.D += scores[3];
+  categories.St += scores[4];
+  categories.C += scores[5];
+}
 
-    // Compare the selected answer to the correct answer
-    if (selectedAnswer === correctAnswer) {
-      score++;
-     setTimeout(()=>{
-       document.querySelectorAll("option")[selectedIndex].style.backgroundColor = "#37BB1169"
-       document.querySelectorAll("option")[selectedIndex].style.color = "#fff"
-       document.querySelectorAll("option")[selectedIndex].style.borderColor = "green"
-     },100)
-      
+let selectedRelation = ''; // Store the selected relation
 
-        userAnswers[currentQuestion] = selectedIndex;
+document.getElementById('surveyForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  selectedRelation = document.getElementById('relation').value; // Save selected relation
+  document.getElementById('surveyForm').classList.add('hidden');
+  renderQuestion(selectedRelation); // Pass relation to renderQuestion
+});
 
-        // Display the correct answer and highlight it in green
-        
-    } else {
-      wrongQuestion++;
-       setTimeout(()=>{
-       document.querySelectorAll("option")[selectedIndex].style.backgroundColor = "#B6141469"
-       document.querySelectorAll("option")[selectedIndex].style.color = "#fff"
-       document.querySelectorAll("option")[selectedIndex].style.borderColor = "red"
-      document.querySelectorAll("option")[questions[currentQuestion].answer].style.backgroundColor="#37BB1169"
-      document.querySelectorAll("option")[questions[currentQuestion].answer].style.color="#fff"
-      document.querySelectorAll("option")[questions[currentQuestion].answer].style.borderColor="green"
-     },100)
+function showResults() {
+  progressBar.style.width = "100%";
+  surveyContainer.style.display = "none";
+  resultsDiv.style.display = "block";
+
+  const normalizedScores = {};
+  for (let key in categories) {
+    normalizedScores[key] = Math.round((categories[key] / maxScores[key]) * 100);
+  }
+
+  const labels = ["Motivation (M)", "Encouragement (E)", "Supportiveness (Su)", "Distraction (D)", "Stress (St)", "Conflict (C)"];
+  const data = Object.values(normalizedScores);
+
+  const ctx = document.getElementById("resultsChart").getContext("2d");
+  new Chart(ctx, {
+    type: "radar",
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: "Relationship Impact",
+          data: data,
+          backgroundColor: "rgba(75, 192, 192, 0.2)",
+          borderColor: "rgba(75, 192, 192, 1)",
+          borderWidth: 2,
+        },
+      ],
+    },
+    options: {
+      scales: {
+        r: {
+          beginAtZero: true,
+          max: 100,
+        },
+      },
+    },
+  });
+
+  document.getElementById("retryQuiz").style.display = "block"; // Show retry button after the quiz
+}
+
+// Attach event listener to the retry button only once
+document.getElementById("retryQuiz").addEventListener("click", resetQuiz);
+
+function resetQuiz() {
+    currentQuestion = 0;
+    for (let key in categories) {
+        categories[key] = 0; // Reset all category scores
     }
+    progressBar.style.width = "0%"; // Reset progress bar
+    surveyContainer.style.display = "block";
+    resultsDiv.style.display = "none";
+    document.getElementById("retryQuiz").style.display = "none"; // Hide retry button during the quiz
+    renderQuestion(selectedRelation); // Pass the saved relation
 }
 
-
-function nextQuestion() {
-    // Check if the user has answered all questions
-    
-    answerContainer.style.pointerEvents="initial"
-    time.innerHTML="15"
-    updateProgress()
-    timer = setInterval(updateTimer, 1000);
-    answerContainer.innerHTML=""
-    if (currentQuestion === questions.length - 1) {
-      resultCard.style.width="300px"
-      resultCard.style.transform="scale(1)"
-      totalScore.innerHTML = questions.length
-      yourScore.innerHTML = score
-      attempted.innerHTML = attemptQuestion
-      unattempted.innerHTML = unattemptedQuestion
-      wrong.innerHTML = wrongQuestion
-      wrapper.style.width="0"
-      wrapper.style.transform="scale(0)"
-        endQuiz();
-    } else {
-        // If there are more questions, update the currentQuestion variable and display the next question and its options
-        currentQuestion++;
-        currentQuestionNum.innerHTML=currentQuestion + 1
-        displayQuestion(currentQuestion);
-    }
-}
-
-function updateTimer() {
-    // Decrement the timer by 1 second
-    let remainingTime = parseInt(time.innerHTML) - 1;
-
-    // Update the timer display
-    time.innerHTML = remainingTime > 9 ? remainingTime : "0" + remainingTime;
-
-    // Update the progress bar
-    
-
-    // If the timer reaches 0, end the quiz
-    if (remainingTime === 0) {
-      unattemptedQuestion++;
-      document.querySelectorAll("option")[questions[currentQuestion].answer].style.backgroundColor = "#37BB1169"
-      document.querySelectorAll("option")[questions[currentQuestion].answer].style.color = "#fff"
-      document.querySelectorAll("option")[questions[currentQuestion].answer].style.borderColor = "green"
-      answerContainer.style.pointerEvents="none"
-        endQuiz();
-    }
-}
-
-function updateProgress() {
- progressBar.style.width = (currentQuestion + 1)/questions.length * 100 + "%";
- 
- ;
-}
-
-function endQuiz() {
-    // Stop the timer
-    clearInterval(timer);
-    
-    // Hide the question and option containers
-    
-}
-
-nxtBtn.addEventListener("click",nextQuestion);
-
-
-
-totalQuestion.innerHTML = questions.length
-currentQuestionNum.innerHTML=currentQuestion + 1
-
+// Start the survey
+renderQuestion(); // Call this with a relation after form submission
