@@ -1,8 +1,9 @@
 body {
-  font-family: Arial, sans-serif;
-  margin: 20px;
-  text-align: center;
-  /* background-image: url('https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0'); */
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    text-align: center;
+    background-image: url('sea.jpg');
+    background-size: cover;
 }
 .question {
   margin: 20px auto;
@@ -15,9 +16,6 @@ body {
   display: block;
   opacity: 1;
   transform: translateX(0);
-}
-.hidden {
-  display: none;
 }
 .progress-bar {
   width: 80%;
@@ -32,6 +30,14 @@ body {
   background: #4caf50;
   width: 0%;
   transition: width 0.5s;
+}
+.hidden {
+  display: none;
+}
+.form-container {
+  margin: 300px 0 0 0;
+  padding: 20px;
+  border-radius: 5px;
 }
 .results {
   display: none;

@@ -3,16 +3,16 @@ let username = "";
 document.getElementById('surveyForm').addEventListener('submit', (e) => {
   e.preventDefault();
   const relation = document.getElementById('relation').value;
-  username = document.getElementById("name").value; // Assign the value of the input element to username
-  document.getElementById('surveyForm').classList.add('hidden');
+  username = document.getElementById("name").value;
   document.querySelector('.progress-bar').classList.remove('hidden');
+  document.getElementById('surveyForm').classList.add('hidden');
 
 console.log(username)
 const questions = {
     common:
         [
             {
-              text: `Q1. Mô tả chung về sự ảnh hưởng của mối quan hệ này đến việc học của bạn?${username}`,
+              text: `Q1. Mô tả chung về sự ảnh hưởng của mối quan hệ này đến việc học của bạn?`,
               choices: [
                 { text: "Rất tích cực", scores: [10, 10, 10, -5, -5, -5] },
                 { text: "Tích cực", scores: [8, 0, 8, -3, -3, -3] },
@@ -608,16 +608,16 @@ function showResults() {
       ],
     },
     options: {
-      scales: {
-        r: {
-          beginAtZero: true,
-          max: 100,
-        },
+        responsive: true,
+        maintainAspectRatio: false,
+        scale: {
+          ticks: {
+            beginAtZero: true,
+            max: 100
+          }
+        }
       },
-    },
   });
-
-  document.getElementById("retryQuiz").style.display = "block"; // Show retry button after the quiz
 }
 
 // Attach event listener to the retry button only once

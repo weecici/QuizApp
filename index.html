@@ -1,39 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Enhanced Survey</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Survey</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <form id="surveyForm">
-    <label for="name">Tên người khảo sát:</label>
-    <input type="text" id="name" name="name" required>
-  
-    <label for="relation">Chọn loại mối quan hệ:</label>
-    <select id="relation" name="relation">
-      <option value="family">Gia đình</option>
-      <option value="love">Tình yêu</option>
-      <option value="friends">Bạn bè</option>
-      <option value="teacher">Giảng viên</option>
-      <option value="colleague">Đồng nghiệp</option>
-    </select>
-  
-    <button type="submit">Bắt đầu khảo sát</button>
-  </form>
-  
-  <h1 id="partName"></h1>
-  <div id="surveyContainer"></div>
-  <div class="progress-bar hidden">
-    <div class="progress" id="progress"></div>
-  </div>
-  <div id="results" class="hidden">
-    <canvas id="resultsChart"></canvas>
-  </div>
-  <button id="retryQuiz" class="retry-button">Retry Quiz</button>
+    <h1 id="partName">Cùng Mình Làm Một Vài Khảo Sát Nha!</h1>
+    <form id="surveyForm" class="form-container">
+        <label for="name">Tên người muốn khảo sát:</label>
+        <input type="text" id="name" name="name" required>
 
-  <script src="main.js"></script>
+        <label for="relation">Mối quan hệ với người muốn khảo sát:</label>
+        <select id="relation" name="relation">
+            <option value="family">Gia đình</option>
+            <option value="love">Tình yêu</option>
+            <option value="friends">Bạn bè</option>
+            <option value="teacher">Giảng viên</option>
+            <option value="colleague">Đồng nghiệp</option>
+        </select>
+
+        <button type="submit">Bắt đầu khảo sát</button>
+    </form>
+
+ 
+    <div id="surveyContainer"></div>
+    <div class="progress-bar hidden">
+        <div class="progress" id="progress"></div>
+      </div>
+    <div id="results" class="hidden">
+        <canvas id="resultsChart"></canvas>
+    </div>
+    <button id="retryQuiz" class="retry-button">Retry Quiz</button>
+
+
+    <script src="main.js"></script>
 </body>
 </html>
