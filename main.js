@@ -5,6 +5,7 @@ document.getElementById('surveyForm').addEventListener('submit', (e) => {
   const relation = document.getElementById('relation').value;
   username = document.getElementById("name").value; // Assign the value of the input element to username
   document.getElementById('surveyForm').classList.add('hidden');
+  document.querySelector('.progress-bar').classList.remove('hidden');
 
 console.log(username)
 const questions = {
