@@ -1,8 +1,10 @@
-let username = "";
-let relation = "";
+let username;
+let relation;
 let questions;
-
+let allQuestions;
 let currentQuestion = 0;
+let answer = [];
+
 const categories = { M: 0, E: 0, Su: 0, D: 0, St: 0, C: 0 };
 const maxScores = { M: 20, E: 10, Su: 20, D: 15, St: 15, C: 15 };
 
@@ -24,7 +26,6 @@ const optionsEl = document.getElementById('options');
 const nextBtn = document.getElementById('next-btn');
 const quizContainer = document.getElementById('quiz');
 const currNumber = document.getElementById('curr-number')
-let allQuestions = ""
 
 document.getElementById('surveyForm').addEventListener('submit', (e) => {
     e.preventDefault();
@@ -551,7 +552,7 @@ function renderQuestion() {
 
     const progressPercent = ((currentQuestion / allQuestions.length) * 100).toFixed(0);
     progressBar.style.width = `${progressPercent}%`;
-
+    progressBar.textContent = `${currentQuestion}/${allQuestions.length}`
 }
 
 function selectOption(selectedButton, optionIndex) {
@@ -588,7 +589,7 @@ function showResults() {
 
     const normalizedScores = {};
     for (const key in categories) {
-        normalizedScores[key] = Math.round((categories[key] / maxScores[key]) * 100);
+        normalizedScores[key] = categories[key];
     }
 
     console.log(normalizedScores)
@@ -642,6 +643,8 @@ function resetQuiz() {
 nextBtn.addEventListener('click', () => {
     if (currentQuestion < allQuestions.length) {
         const finalChoice = document.getElementById("curr-selected");
+        answer.push(finalChoice.textContent)
+        console.log(finalChoice.textContent)
         updateScores(finalChoice.scores)
         currentQuestion++;
         renderQuestion();

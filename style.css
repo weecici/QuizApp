@@ -10,6 +10,7 @@ body {
   margin: 20px auto;
   border-radius: 10px;
   overflow: hidden;
+  text-align: center;
 }
 
 .progress {
@@ -17,6 +18,9 @@ body {
   background: #4caf50;
   width: 0%;
   transition: width 0.5s;
+  color: white;
+  font-weight: bold;
+  justify-content: center;
 }
 
 .hidden {
@@ -98,6 +102,7 @@ canvas {
   background-color: #1e7e34;
   transform: scale(0.95);
 }
+
 
 #results {
   text-align: center;
