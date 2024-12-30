@@ -4,7 +4,7 @@ let questions;
 let allQuestions;
 let currentQuestion = 0;
 let answers = [];
-let hint;
+let hints;
 
 const categories = { M: 0, E: 0, Su: 0, D: 0, St: 0, C: 0 };
 const maxScores = { M: 20, E: 10, Su: 20, D: 15, St: 15, C: 15 };
@@ -69,7 +69,7 @@ document.getElementById('surveyForm').addEventListener('submit', (e) => {
                 },
 
                 {
-                    text: `Q4. Tương tác thường xuyên với ${username.bold()} có ảnh hưởng như thế nào đến tinh thần và cảm hứng học tập của bạn?`,
+                    text: `Q4. Tương tác thường xuyên với ${username} có ảnh hưởng như thế nào đến tinh thần và cảm hứng học tập của bạn?`,
                     choices: [
                         { text: `Rất áp lực, khiến bạn cảm thấy mệt mỏi`, scores: [5, 5, 5, 0, 0, 0] },
                         { text: `Có áp lực nhưng ở mức nhẹ`, scores: [3, 3, 3, 0, 0, 0] },
@@ -120,6 +120,7 @@ document.getElementById('surveyForm').addEventListener('submit', (e) => {
                         { text: `Trung lập`, scores: [0, 0, 0, 0, 0, 0] },
                         { text: `Không tôn trọng hoặc không ủng hộ`, scores: [0, -3, -3, 0, 3, 3] },
                         { text: `Phản đối mạnh mẽ`, scores: [0, -5, -5, 0, 5, 5] },
+                        { text: `Tôi không chia sẻ với ${username}`, scores: [0, 0, 0, 0, 0, 0] },
                     ],
                 },
 
@@ -131,11 +132,12 @@ document.getElementById('surveyForm').addEventListener('submit', (e) => {
                         { text: `Thỉnh thoảng được lắng nghe và thấu hiểu`, scores: [2, 2, 2, 0, -1, 0] },
                         { text: `Hiếm khi được lắng nghe và thấu hiểu`, scores: [1, 1, 1, 0, 0, 0] },
                         { text: `Không bao giờ được lắng nghe và thấu hiểu`, scores: [-5, -5, -5, 0, 5, 0] },
+                        { text: `Tôi không chia sẻ với ${username}`, scores: [0, 0, 0, 0, 0, 0] },
                     ],
                 },
 
                 {
-                    text: `Q10. Những thành tích trong con đường học vấn (và nghiên cức) của ${username} ảnh hưởng đến bạn như thế nào?`,
+                    text: `Q10. Những thành tích trong con đường học vấn (và nghiên cứu) của ${username} ảnh hưởng đến bạn như thế nào?`,
                     choices: [
                         { text: `Nó là động lực và là nguồn cảm hứng rất lớn giúp tôi học hỏi và phát triển nhiều hơn`, scores: [5, 0, 0, 0, -5, 0] },
                         { text: `Nó vừa là động lực, vừa khiến tôi muốn học hỏi và phát triển hơn`, scores: [2, 0, 0, 0, -2, 0] },
@@ -175,7 +177,7 @@ document.getElementById('surveyForm').addEventListener('submit', (e) => {
                         { text: `Thoải mái, nhưng hơi ngại ngùng vì sợ phiền`, scores: [0, 0, 2, 0, 0, 0] },
                         { text: `Không thoải mái nhưng vẫn yêu cầu khi cần thiết`, scores: [0, 0, 0, 0, 2, 0] },
                         { text: `Cảm thấy rất không thoải mái và hiếm khi ngỏ lời`, scores: [0, 0, 0, 0, 5, 0] },
-                        { text: `Tôi không yêu cầu giúp đỡ gì từ ${username}`, scores: [0, 0, -5, 0, 0, 0] },
+                        { text: `Tôi không yêu cầu giúp đỡ gì từ ${username}`, scores: [0, 0, 0, 0, 0, 0] },
                     ],
                 },
 
@@ -187,7 +189,7 @@ document.getElementById('surveyForm').addEventListener('submit', (e) => {
                         { text: `Thỉnh thoảng giúp tôi một vài lần`, scores: [0, 2, 5, 0, 0, 0] },
                         { text: `Hiếm khi họ giúp tôi`, scores: [0, 1, 2, 0, 0, 0] },
                         { text: `Không bao giờ`, scores: [0, 0, -5, 0, 0, 0] },
-                        { text: `Tôi không yêu cầu giúp đỡ gì từ người ấy`, scores: [0, 0, 0, 0, 0, 0] },
+                        { text: `Tôi không yêu cầu giúp đỡ gì từ ${username}`, scores: [0, 0, 0, 0, 0, 0] },
                     ],
                 },
 
@@ -226,7 +228,7 @@ document.getElementById('surveyForm').addEventListener('submit', (e) => {
                         { text: `Bình thường, nó cũng không ảnh hưởng nhiều lắm`, scores: [0, 0, 0, 0, 0, 0] },
                         { text: `Tiêu cực, nó vô hình tạo ra cho tôi những áp lực`, scores: [0, 0, 0, 0, 2, 0] },
                         { text: `Rất tiêu cực, tôi cảm thấy rất áp lực và cảm giác mình không xứng đáng`, scores: [0, 0, 0, 0, 5, 0] },
-                        { text: `Người này không gánh trách nhiệm đầu tư vật chất cho tôi`, scores: [0, 0, 0, 0, 0, 0] },
+                        { text: `${username} không gánh trách nhiệm đầu tư vật chất cho tôi`, scores: [0, 0, 0, 0, 0, 0] },
                     ],
                 },
 
@@ -249,7 +251,7 @@ document.getElementById('surveyForm').addEventListener('submit', (e) => {
                         { text: `Trung tính, không thấy phiền hoặc hài lòng`, scores: [0, 0, 0, 0, 0, 0] },
                         { text: `Hài lòng, cảm thấy có sự quan tâm đúng mức`, scores: [0, 2, 2, 0, 0, 0] },
                         { text: `Rất hài lòng, cảm giác mình được định hướng đúng`, scores: [0, 5, 5, 0, 0, 0] },
-                        { text: `Họ không can thiệp vào việc học của tôi`, scores: [0, 0, 0, 0, 0, 0] },
+                        { text: `${username} không can thiệp vào việc học của tôi`, scores: [0, 0, 0, 0, 0, 0] },
                     ],
                 },
 
@@ -260,8 +262,8 @@ document.getElementById('surveyForm').addEventListener('submit', (e) => {
                         { text: `Ảnh hưởng tiêu cực, khiến tôi không được quyết định một số lựa chọn cho bản thân`, scores: [-2, 0, 0, 0, 0, 2] },
                         { text: `Trung tính, không ảnh hưởng lớn`, scores: [0, 0, 0, 0, 0, 0] },
                         { text: `Hỗ trợ ở mức vừa phải, giúp phát triển tự lập`, scores: [2, 0, 0, 0, 0, -2] },
-                        { text: `Hỗ trợ tốt, bạn vẫn tự lập hoàn toàn`, scores: [5, 0, 0, 0, 0, -2] },
-                        { text: `Họ không can thiệp vào việc học của tôi`, scores: [0, 0, 0, 0, 0, 0] },
+                        { text: `Hỗ trợ tốt, bạn vẫn tự lập hoàn toàn`, scores: [5, 0, 0, 0, 0, -5] },
+                        { text: `${username} không can thiệp vào việc học của tôi`, scores: [0, 0, 0, 0, 0, 0] },
                     ],
                 },
 
@@ -273,7 +275,7 @@ document.getElementById('surveyForm').addEventListener('submit', (e) => {
                         { text: `Trung tính, không thấy áp lực`, scores: [0, 0, 0, 0, 0, 0] },
                         { text: `Có động lực từ kỳ vọng`, scores: [2, 0, 0, 0, 0, 0] },
                         { text: `Hoàn toàn tự tin, tràn trề động lực để đạt được những kì vọng đó`, scores: [5, 2, 0, 0, 0, 0] },
-                        { text: `Họ không kì vọng gì từ kết quả học tập của tôi`, scores: [-2, 0, 0, 0, 0, 0] },
+                        { text: `${username} không kì vọng gì từ kết quả học tập của tôi`, scores: [-2, 0, 0, 0, 0, 0] },
                     ],
                 },
 
@@ -285,7 +287,7 @@ document.getElementById('surveyForm').addEventListener('submit', (e) => {
                         { text: `Trung tính, không phản ứng gì lớn`, scores: [0, 0, 0, 0, 0, 0] },
                         { text: `Cảm thông, động viên bạn cải thiện`, scores: [0, 2, 2, 0, 0, 0] },
                         { text: `Rất hiểu và cảm thông, động viên và đưa ra những giải pháp cụ thể để giúp bạn cải thiện`, scores: [0, 5, 5, 0, 0, 0] },
-                        { text: `Họ không kì vọng gì hết từ kết quả học tập của tôi`, scores: [0, 0, 0, 0, 0, 0] },
+                        { text: `${username} không kì vọng gì hết từ kết quả học tập của tôi`, scores: [0, 0, 0, 0, 0, 0] },
                     ],
                 },
             ],
@@ -347,7 +349,7 @@ document.getElementById('surveyForm').addEventListener('submit', (e) => {
                 },
 
                 {
-                    text: `Q21. Kì vọng của ${username} vào thành tích học tập của bạn khiến bạn cảm thất như thế nào?`,
+                    text: `Q21. Kì vọng của ${username} vào thành tích học tập của bạn khiến bạn cảm thấy như thế nào?`,
                     choices: [
                         { text: `Rất áp lực`, scores: [0, 0, 0, 0, 5, 0] },
                         { text: `Áp lực nhẹ`, scores: [0, 0, 0, 0, 2, 0] },
@@ -511,6 +513,41 @@ document.getElementById('surveyForm').addEventListener('submit', (e) => {
                 },
             ],
     };
+    hints = {
+        common: [
+            `Hãy tìm hiểu nguyên nhân và trao đổi thẳng thắn với người ấy. Hãy đánh giá lại tầm quan trọng của mối quan hệ và cân nhắc thay đổi hoặc giảm tương tác nếu cần.`,
+            `Hãy thử trao đổi một cách khéo léo với họ để thiết lập ranh giới rõ ràng hơn về thời gian học tập của bạn, đồng thời cân nhắc dành những khung giờ cố định để tương tác với họ.`,
+            `Hãy tránh so sánh và tập trung vào hành trình riêng của bạn. Bạn cần giữ vững tinh thần và đặt ra mục tiêu thực tế hơn để lấy lại sự tự tin.`,
+            `Bạn nên cân nhắc tổ chức một cuộc trò chuyện thẳng thắn với ${username} để giải quyết các vấn đề tồn đọng. Hãy cố gắng xây dựng một cách giao tiếp hiệu quả hơn, lắng nghe quan điểm của nhau và tìm ra điểm chung để giảm thiểu xung đột.`,
+        ],
+        family: [
+            `Hãy thử trao đổi với ${username} về mong muốn được tự quyết định nhiều hơn, nhưng đừng quên lắng nghe ý kiến của họ.`,
+            `Áp lực từ kỳ vọng có thể khiến bạn cảm thấy mệt mỏi hoặc căng thẳng. Hãy thử trao đổi với ${username} về cảm xúc và những khó khăn của bạn. Nên tập trung vào những mục tiêu vào bản thân đề ra hơn là phải đáp ứng kỳ vọng của người khác.`
+        ],
+        love: [
+            `Hãy cân nhắc lên kế hoạch và tạo ra thêm những buổi học chung với ${username} để có thể tối đa hoá hiệu quả việc học của bản thân.`,
+            `Bạn nên trao đổi với ${username} để tìm ra những cách học hiệu quả và tập trung hơn, đồng thời cân nhắc tăng thời gian tự học riêng để nâng cao chất lượng học.`,
+            `Bạn cùng với ${username} nên trao đổi với nhau nhằm cân bằng giữa việc thư giãn và việc học để cả hai cùng phát triển tốt hơn.`,
+            `Bạn nên cân nhắc thêm các hoạt động giải trí vào lịch trình để mối quan hệ trở nên thú vị và bền chặt hơn, đồng thời giúp giải toả căng thẳng sau giờ học.`,
+            `Áp lực từ kỳ vọng có thể khiến bạn cảm thấy mệt mỏi hoặc căng thẳng. Hãy thử trao đổi với ${username} về cảm xúc và những khó khăn của bạn. Nên tập trung vào những mục tiêu vào bản thân đề ra hơn là phải đáp ứng kỳ vọng của người khác.`,
+        ],
+        friends: [
+            `Hãy cân nhắc lên kế hoạch và tạo ra thêm những buổi học chung với ${username} để có thể tối đa hoá hiệu quả việc học của bản thân.`,
+            `Bạn nên trao đổi với ${username} để tìm ra những cách học hiệu quả và tập trung hơn, đồng thời cân nhắc tăng thời gian tự học riêng để nâng cao chất lượng học.`,
+            `Bạn cùng với ${username} nên trao đổi với nhau nhằm cân bằng giữa việc thư giãn và việc học để cả hai cùng phát triển tốt hơn.`,
+            `Bạn nên cân nhắc thêm các hoạt động giải trí vào lịch trình để mối quan hệ trở nên thú vị và bền chặt hơn, đồng thời giúp giải toả căng thẳng sau giờ học.`,
+            `Áp lực từ kỳ vọng có thể khiến bạn cảm thấy mệt mỏi hoặc căng thẳng. Hãy thử trao đổi với ${username} về cảm xúc và những khó khăn của bạn. Nên tập trung vào những mục tiêu vào bản thân đề ra hơn là phải đáp ứng kỳ vọng của người khác.`,
+        ],
+        teacher: [
+            `Hãy thử mạnh dạn hơn trong việc giao tiếp với ${username}. Điều này có thể giúp bạn hiểu bài tốt hơn và tạo mối quan hệ tích cực với ${username}.`,
+            `Hãy trao đổi với ${username} về khối lượng công việc, bài tập để ${username} có thể điều chỉnh lại, hoặc lên kế hoạch học tập cụ thể để giảm bớt áp lực.`,
+        ],
+        colleague: [
+            `Hãy chủ động với${username} trao đổi để giảm tải lượng công việc hoặc tìm cách phân bổ công việc hợp lý hơn. Đừng ngần ngại yêu cầu hỗ trợ khi cần.`,
+            `Hãy tập trung vào mục tiêu của mình thay vì so sánh quá nhiều với${username}. Cạnh tranh là tốt, nhưng cần giữ cân bằng để tránh quá tải.`,
+        ],
+    };
+
     surveyContainer.style.display = 'block'
     allQuestions = [...questions.common, ...questions[relation]];
     renderQuestion();
