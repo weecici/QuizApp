@@ -32,31 +32,35 @@
     <div class="text-center h-100" style="margin-top: 2%;">
         <h1 id="partName" class="mb-3">KHẢO SÁT</h1>
     </div>
-    <form id="surveyForm" class="form-container row g-3">
-        <div class="mb-3 col">
-            <label for="relation">Mối quan hệ giữa bạn với người muốn khảo sát</label>
-            <div class="form-floating mb-3">
-                <select class="form-select" id="relation" name="relation" aria-placeholder="">
-                    <option value="family">Gia đình</option>
-                    <option value="love">Tình yêu</option>
-                    <option value="friends">Bạn bè</option>
-                    <option value="teacher">Giảng viên</option>
-                    <option value="colleague">Đồng nghiệp</option>
-                </select>
-                <label for="relation">Relationship</label>
-            </div>
-        </div>
-        <div class="mb-3 col">
-            <label for="name">Tên của người bạn muốn khảo sát</label>
-            <div class="form-floating mb-3">
-                <input class="form-control" type="text" id="name" name="name" placeholder="Name" required>
-                <label for="name">Name</label>
-            </div>
-        </div>
-        <button type="submit" class="btn btn-primary">Bắt đầu khảo sát</button>
-    </form>
 
+    <div class="container  py-3" style="width: 60%; min-width: 300px;">
+        <form id="surveyForm" class="form-signin g-3">
+            <div class="mb-3" style="text-align: left;">
+                <label for="relation">Mối quan hệ giữa bạn với người muốn khảo sát</label>
+                <div class="form-floating mb-3">
+                    <select class="form-select" id="relation" name="relation" aria-placeholder="">
+                        <option value="family">Gia đình</option>
+                        <option value="love">Tình yêu</option>
+                        <option value="friends">Bạn bè</option>
+                        <option value="teacher">Giảng viên</option>
+                        <option value="colleague">Đồng nghiệp</option>
+                    </select>
+                    <label for="relation">Relationship</label>
+                </div>
+            </div>
+            <br>
+            <div class="mb-3" style="text-align: left;">
+                <label for="name">Tên của người bạn muốn khảo sát</label>
+                <div class="form-floating mb-3">
+                    <input class="form-control" type="text" id="name" name="name" placeholder="Name" required>
+                    <label for="name">Name</label>
+                </div>
+            </div>
+            <br>
+            <button type="submit" class="btn btn-primary">Bắt đầu khảo sát</button>
+        </form>
 
+    </div>
 
     <div class="container hidden" id="surveyContainer">
         <div class="quiz-container" id="quiz">
