@@ -513,6 +513,7 @@ document.getElementById('surveyForm').addEventListener('submit', (e) => {
                 },
             ],
     };
+
     hints = {
         common: [
             `Hãy tìm hiểu nguyên nhân và trao đổi thẳng thắn với người ấy. Hãy đánh giá lại tầm quan trọng của mối quan hệ và cân nhắc thay đổi hoặc giảm tương tác nếu cần.`,
