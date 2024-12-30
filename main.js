@@ -41,9 +41,9 @@ document.getElementById('surveyForm').addEventListener('submit', (e) => {
                     text: `Q1. Mô tả chung về sự ảnh hưởng của mối quan hệ này đến việc học của bạn?`,
                     choices: [
                         { text: `Rất tích cực`, scores: [10, 10, 10, -5, -5, -5] },
-                        { text: `Tích cực`, scores: [8, 8, 8, -3, -3, -3] },
+                        { text: `Tích cực`, scores: [5, 5, 5, -3, -3, -3] },
                         { text: `Bình thường`, scores: [0, 0, 0, 0, 0, 0] },
-                        { text: `Tiêu cực`, scores: [-3, -3, -3, 8, 8, 8] },
+                        { text: `Tiêu cực`, scores: [-3, -3, -3, 5, 5, 5] },
                         { text: `Rất tiêu cực`, scores: [-5, -5, -5, 10, 10, 10] },
                     ],
                 },
@@ -69,13 +69,13 @@ document.getElementById('surveyForm').addEventListener('submit', (e) => {
                 },
 
                 {
-                    text: `Q4. Bạn có cảm thấy áp lực phải làm tốt hơn ${username} trong công việc nhóm không?`,
+                    text: `Q4. Tương tác thường xuyên với ${username.bold()} có ảnh hưởng như thế nào đến tinh thần và cảm hứng học tập của bạn?`,
                     choices: [
-                        { text: `Rất áp lực, khiến bạn cảm thấy mệt mỏi`, scores: [0, 0, 0, 0, 5, 0] },
-                        { text: `Có áp lực nhưng ở mức nhẹ`, scores: [0, 0, 0, 0, 2, 0] },
+                        { text: `Rất áp lực, khiến bạn cảm thấy mệt mỏi`, scores: [5, 5, 5, 0, 0, 0] },
+                        { text: `Có áp lực nhưng ở mức nhẹ`, scores: [3, 3, 3, 0, 0, 0] },
                         { text: `Trung tính, không bị ảnh hưởng nhiều`, scores: [0, 0, 0, 0, 0, 0] },
-                        { text: `Tích cực, áp lực vừa đủ để bạn cố gắng hơn`, scores: [2, 0, 0, 0, 0, 0] },
-                        { text: `Hoàn toàn tích cực, tạo động lực để bạn phát triển bản thân`, scores: [5, 0, 0, 0, 0, 0] },
+                        { text: `Tích cực, áp lực vừa đủ để bạn cố gắng hơn`, scores: [-3, -3, 0, 0, 0, 0] },
+                        { text: `Hoàn toàn tích cực, tạo động lực để bạn phát triển bản thân`, scores: [-5, -5, -5, 0, 0, 0] },
                     ],
                 },
 
@@ -649,7 +649,7 @@ nextBtn.addEventListener('click', () => {
     if (currentQuestion < allQuestions.length) {
         const finalChoice = document.getElementById("curr-selected");
         answers.push(finalChoice.textContent)
-        console.log(answer)
+        console.log(answers)
         updateScores(finalChoice.scores)
         currentQuestion++;
         renderQuestion();
