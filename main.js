@@ -3,7 +3,8 @@ let relation;
 let questions;
 let allQuestions;
 let currentQuestion = 0;
-let answer = [];
+let answers = [];
+let hint;
 
 const categories = { M: 0, E: 0, Su: 0, D: 0, St: 0, C: 0 };
 const maxScores = { M: 20, E: 10, Su: 20, D: 15, St: 15, C: 15 };
@@ -614,15 +615,19 @@ function showResults() {
         },
         options: {
             responsive: true,
-            maintainAspectRatio: false,
-            scale: {
-                ticks: {
-                    beginAtZero: true,
-                    max: 100
-                }
-            }
+            maintainAspectRatio: true,
+            // scale: {
+            //     ticks: {
+            //         // beginAtZero: true,
+            //         max: 100
+            //     }
+            // }
         },
     });
+}
+
+function getHint() {
+
 }
 
 // Attach event listener to the retry button only once
@@ -643,8 +648,8 @@ function resetQuiz() {
 nextBtn.addEventListener('click', () => {
     if (currentQuestion < allQuestions.length) {
         const finalChoice = document.getElementById("curr-selected");
-        answer.push(finalChoice.textContent)
-        console.log(finalChoice.textContent)
+        answers.push(finalChoice.textContent)
+        console.log(answer)
         updateScores(finalChoice.scores)
         currentQuestion++;
         renderQuestion();
