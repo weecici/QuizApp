@@ -1,10 +1,10 @@
-let username;
-let relation;
-let questions;
-let allQuestions;
+let username = "";
+let relation = "";
+let questions = {};
+let allQuestions = [];
 let currentQuestion = 0;
 let answers = [];
-let hints;
+let hints = {};
 
 const categories = { M: 0, E: 0, Su: 0, D: 0, St: 0, C: 0 };
 const maxScores = { M: 20, E: 10, Su: 20, D: 15, St: 15, C: 15 };
@@ -14,12 +14,11 @@ const resultsDiv = document.getElementById("results");
 const progressBar = document.getElementById("progress");
 const partNames =
 {
-    family: "Family Relationships",
-    love: "Romantic Relationships",
-    friends: "Friendship Dynamics",
-    teacher: "Teacher-Student Interactions",
-    colleague: "Colleague Relations",
-    common: "General Relationships",
+    family: "About Family",
+    love: "About Lover",
+    friends: "About Friendships",
+    teacher: "About Teachers",
+    colleague: "About Colleagues",
 };
 
 const questionEl = document.getElementById('question');
@@ -27,6 +26,9 @@ const optionsEl = document.getElementById('options');
 const nextBtn = document.getElementById('next-btn');
 const quizContainer = document.getElementById('quiz');
 const currNumber = document.getElementById('curr-number')
+const partName = document.getElementById('partName')
+const retryBtn = document.getElementById("retryQuiz")
+const hintsBtn = document.getElementById("showHints")
 
 document.getElementById('surveyForm').addEventListener('submit', (e) => {
     e.preventDefault();
@@ -71,11 +73,11 @@ document.getElementById('surveyForm').addEventListener('submit', (e) => {
                 {
                     text: `Q4. Tương tác thường xuyên với ${username} có ảnh hưởng như thế nào đến tinh thần và cảm hứng học tập của bạn?`,
                     choices: [
-                        { text: `Rất áp lực, khiến bạn cảm thấy mệt mỏi`, scores: [5, 5, 5, 0, 0, 0] },
-                        { text: `Có áp lực nhưng ở mức nhẹ`, scores: [3, 3, 3, 0, 0, 0] },
-                        { text: `Trung tính, không bị ảnh hưởng nhiều`, scores: [0, 0, 0, 0, 0, 0] },
-                        { text: `Tích cực, áp lực vừa đủ để bạn cố gắng hơn`, scores: [-3, -3, 0, 0, 0, 0] },
-                        { text: `Hoàn toàn tích cực, tạo động lực để bạn phát triển bản thân`, scores: [-5, -5, -5, 0, 0, 0] },
+                        { text: `Rất tích cực`, scores: [5, 5, 5, 0, 0, 0] },
+                        { text: `Tích cực`, scores: [3, 3, 3, 0, 0, 0] },
+                        { text: `Không thay đổi nhiều`, scores: [0, 0, 0, 0, 0, 0] },
+                        { text: `Tiêu cực`, scores: [-3, -3, 0, 0, 0, 0] },
+                        { text: `Rất tiêu cực`, scores: [-5, -5, -5, 0, 0, 0] },
                     ],
                 },
 
@@ -516,7 +518,7 @@ document.getElementById('surveyForm').addEventListener('submit', (e) => {
 
     hints = {
         common: [
-            `Hãy tìm hiểu nguyên nhân và trao đổi thẳng thắn với người ấy. Hãy đánh giá lại tầm quan trọng của mối quan hệ và cân nhắc thay đổi hoặc giảm tương tác nếu cần.`,
+            `Hãy tìm hiểu nguyên nhân của sự ảnh hưởng tiêu cực từ việc tương tác với ${username} và trao đổi thẳng thắn với họ. Hãy đánh giá lại tầm quan trọng của mối quan hệ và cân nhắc thay đổi hoặc giảm tương tác nếu cần.`,
             `Hãy thử trao đổi một cách khéo léo với họ để thiết lập ranh giới rõ ràng hơn về thời gian học tập của bạn, đồng thời cân nhắc dành những khung giờ cố định để tương tác với họ.`,
             `Hãy tránh so sánh và tập trung vào hành trình riêng của bạn. Bạn cần giữ vững tinh thần và đặt ra mục tiêu thực tế hơn để lấy lại sự tự tin.`,
             `Bạn nên cân nhắc tổ chức một cuộc trò chuyện thẳng thắn với ${username} để giải quyết các vấn đề tồn đọng. Hãy cố gắng xây dựng một cách giao tiếp hiệu quả hơn, lắng nghe quan điểm của nhau và tìm ra điểm chung để giảm thiểu xung đột.`,
@@ -541,11 +543,11 @@ document.getElementById('surveyForm').addEventListener('submit', (e) => {
         ],
         teacher: [
             `Hãy thử mạnh dạn hơn trong việc giao tiếp với ${username}. Điều này có thể giúp bạn hiểu bài tốt hơn và tạo mối quan hệ tích cực với ${username}.`,
-            `Hãy trao đổi với ${username} về khối lượng công việc, bài tập để ${username} có thể điều chỉnh lại, hoặc lên kế hoạch học tập cụ thể để giảm bớt áp lực.`,
+            `Hãy trao đổi với ${username} về khối lượng công việc, bài tập để ${username} có thể điều chỉnh lại; hoặc tự lên kế hoạch học tập cụ thể để giảm bớt áp lực.`,
         ],
         colleague: [
-            `Hãy chủ động với${username} trao đổi để giảm tải lượng công việc hoặc tìm cách phân bổ công việc hợp lý hơn. Đừng ngần ngại yêu cầu hỗ trợ khi cần.`,
-            `Hãy tập trung vào mục tiêu của mình thay vì so sánh quá nhiều với${username}. Cạnh tranh là tốt, nhưng cần giữ cân bằng để tránh quá tải.`,
+            `Hãy chủ động với ${username} trao đổi để giảm tải lượng công việc hoặc tìm cách phân bổ công việc hợp lý hơn. Đừng ngần ngại yêu cầu hỗ trợ khi cần.`,
+            `Hãy tập trung vào mục tiêu của mình thay vì so sánh quá nhiều với ${username}. Cạnh tranh là tốt, nhưng cần giữ cân bằng để tránh quá tải.`,
         ],
     };
 
@@ -556,22 +558,23 @@ document.getElementById('surveyForm').addEventListener('submit', (e) => {
 
 
 function renderQuestion() {
-
     if (currentQuestion >= allQuestions.length) {
+        partName.innerText = 'Summary';
+        retryBtn.style.display = `block`;
+        hintsBtn.style.display = `block`;
         showResults();
         return;
     }
 
     // Determine which part name to display
-    let partName = "Common Question Part";
+    let name = "Common Questions";
     if (currentQuestion >= 15) {
-        if (relation in partNames) {
-            partName = partNames[relation];
-        }
+        name = partNames[relation];
     }
 
-    document.getElementById("partName").innerText = partName;
-    document.getElementById("partName").style.display = "block"; // Show part name element
+
+    partName.innerText = name;
+    partName.style.display = "block"; // Show part name element
 
     const question = allQuestions[currentQuestion];
     currNumber.textContent = question.text.substring(0, question.text.indexOf('.'));
@@ -589,6 +592,7 @@ function renderQuestion() {
 
     // Display the part name
 
+
     const progressPercent = ((currentQuestion / allQuestions.length) * 100).toFixed(0);
     progressBar.style.width = `${progressPercent}%`;
     progressBar.textContent = `${currentQuestion}/${allQuestions.length}`
@@ -596,7 +600,10 @@ function renderQuestion() {
 
 function selectOption(selectedButton, optionIndex) {
     const buttons = optionsEl.getElementsByClassName('option');
-    Array.from(buttons).forEach(button => button.classList.remove('selected'));
+    Array.from(buttons).forEach(button => {
+        button.classList.remove('selected')
+        button.id = ""
+    });
     selectedButton.classList.add('selected');
     selectedButton.id = "curr-selected"
     nextBtn.style.display = 'block';
@@ -664,30 +671,137 @@ function showResults() {
     });
 }
 
-function getHint() {
-
+function findIdx(choices, answer) {
+    for (i = 0; i < choices.length; ++i) {
+        if (choices[i].text.localeCompare(answer) == 0)
+            return i;
+    }
+    return -1;
 }
 
-// Attach event listener to the retry button only once
-document.getElementById("retryQuiz").addEventListener("click", resetQuiz);
+
+function showHints() {
+    hintsBtn.style.display = `none`
+    const hintsContainer = document.getElementById('hintsContainer');
+    const hintsContent = document.getElementById('hintsContent');
+    let allHints = []
+
+    hintsContainer.style.display = `block`
+
+    let addHint = (hint) => {
+        let num = allHints.length + 1
+        allHints.push(`
+        <div class="card border border-dark rounded" style="margin-top: 2%;">
+            <img src="assets/${num}.png" class="card-img-top" alt="..." style="">
+            <div class="card-body">
+                <h5 class="card-title">Hints ${num}</h5>
+                <p class="card-text" id="hintsContent" style="text-align: left;">${hint}</p>
+            </div>
+        </div>
+        `)
+    }
+
+    let idx = 0
+
+    if (findIdx(allQuestions[3].choices, answers[3]) > 2) {
+        addHint(hints['common'][0])
+    }
+
+    if (findIdx(allQuestions[5].choices, answers[5]) < 2) {
+        addHint(hints['common'][1])
+    }
+
+    idx = findIdx(allQuestions[9].choices, answers[9])
+    if (idx > 1 && idx < 4) {
+        addHint(hints['common'][2])
+    }
+
+    if (findIdx(allQuestions[10].choices, answers[10]) < 2 &&
+        findIdx(allQuestions[11].choices, answers[11]) < 3) {
+        addHint(hints['common'][3])
+    }
+
+    if (relation == 'family') {
+        if (findIdx(allQuestions[18].choices, answers[18]) < 2 ||
+            findIdx(allQuestions[19].choices, answers[19]) < 2) {
+            addHint(hints[relation][0])
+        }
+
+        if (findIdx(allQuestions[20].choices, answers[20]) < 2) {
+            addHint(hints[relation][1])
+        }
+    }
+    else if (relation == 'love') {
+        let idx = findIdx(allQuestions[16].choices, answers[16])
+        let idx2 = findIdx(allQuestions[17].choices, answers[17])
+        if ((idx > 1 && idx < 4) && idx2 < 2) {
+            addHint(hints[relation][0])
+        }
+        if (idx < 2 && idx2 > 2 && idx2 < 5) {
+            addHint(hints[relation][1])
+        }
+        idx = findIdx(allQuestions[18].choices, answers[18])
+        if (idx == 0) {
+            addHint(hints[relation][2])
+        }
+        if (idx == 4) {
+            addHint(hints[relation][3])
+        }
+        if (findIdx(allQuestions[20].choices, answers[20]) < 2) {
+            addHint(hints[relation][4])
+        }
+    }
+    else if (relation == 'friends') {
+        let idx = findIdx(allQuestions[15].choices, answers[15])
+        let idx2 = findIdx(allQuestions[16].choices, answers[16])
+        if ((idx > 1 && idx < 4) && idx2 < 2) {
+            addHint(hints[relation][0])
+        }
+        if (idx < 2 && idx2 > 2 && idx2 < 5) {
+            addHint(hints[relation][1])
+        }
+        idx = findIdx(allQuestions[17].choices, answers[17])
+        if (idx == 0) {
+            addHint(hints[relation][2])
+        }
+        if (idx == 4) {
+            addHint(hints[relation][3])
+        }
+        if (findIdx(allQuestions[19].choices, answers[19]) < 2) {
+            addHint(hints[relation][4])
+        }
+    }
+    else if (relation == 'teacher') {
+        if (findIdx(allQuestions[17].choices, answers[17]) == 5) {
+            addHint(hints[relation][0])
+        }
+        if (findIdx(allQuestions[18].choices, answers[18]) == 0) {
+            addHint(hints[relation][1])
+        }
+    }
+    else {
+        if (findIdx(allQuestions[17].choices, answers[17]) == 0) {
+            addHint(hints[relation][0])
+        }
+        if (findIdx(allQuestions[18].choices, answers[18]) == 0) {
+            addHint(hints[relation][1])
+        }
+    }
+    for (const hint of allHints) {
+        hintsContainer.innerHTML += hint
+    }
+}
 
 function resetQuiz() {
-    currentQuestion = 0;
-    for (let key in categories) {
-        categories[key] = 0; // Reset all category scores
-    }
-    progressBar.style.width = "0%"; // Reset progress bar
-    surveyContainer.style.display = "block";
-    resultsDiv.style.display = "none";
-    document.getElementById("retryQuiz").style.display = "none"; // Hide retry button during the quiz
-    renderQuestion(selectedRelation); // Pass the saved relation
+    location.reload()
 }
-
+// Attach event listener to the retry button only once
+retryBtn.addEventListener("click", resetQuiz);
+hintsBtn.addEventListener("click", showHints);
 nextBtn.addEventListener('click', () => {
     if (currentQuestion < allQuestions.length) {
         const finalChoice = document.getElementById("curr-selected");
         answers.push(finalChoice.textContent)
-        console.log(answers)
         updateScores(finalChoice.scores)
         currentQuestion++;
         renderQuestion();

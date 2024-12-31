@@ -36,7 +36,7 @@
     <div class="container  py-3" style="width: 60%; min-width: 300px;">
         <form id="surveyForm" class="form-signin g-3">
             <div class="mb-3" style="text-align: left;">
-                <label for="relation">Mối quan hệ giữa bạn với người muốn khảo sát</label>
+                <label for="relation">Mối quan hệ giữa bạn với người muốn khảo sát:</label>
                 <div class="form-floating mb-3">
                     <select class="form-select" id="relation" name="relation" aria-placeholder="">
                         <option value="family">Gia đình</option>
@@ -50,7 +50,7 @@
             </div>
             <br>
             <div class="mb-3" style="text-align: left;">
-                <label for="name">Tên của người bạn muốn khảo sát</label>
+                <label for="name">Tên của người bạn muốn khảo sát:</label>
                 <div class="form-floating mb-3">
                     <input class="form-control" type="text" id="name" name="name" placeholder="Name" required>
                     <label for="name">Name</label>
@@ -59,8 +59,8 @@
             <br>
             <button type="submit" class="btn btn-primary">Bắt đầu khảo sát</button>
         </form>
-
     </div>
+
 
     <div class="container hidden" id="surveyContainer">
         <div class="quiz-container" id="quiz">
@@ -85,6 +85,15 @@
 
     <div id="results" class="hidden">
         <canvas id="resultsChart"></canvas>
+    </div>
+
+    <div class="d-flex justify-content-center">
+        <button id="showHints" class="btn btn-primary hidden"><img src="assets/hint.png" alt="" width="24"> Show
+            Hints</button>
+        <br>
+    </div>
+
+    <div class="container hidden rounded text-center" id="hintsContainer" style="margin-top:3%;">
     </div>
 
     <button id="retryQuiz" class="retry-button">Retry Quiz</button>
