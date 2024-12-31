@@ -153,6 +153,23 @@ canvas {
   margin-bottom: 30px;
 }
 
+.cards-container {
+  column-count: 2;
+}
+
+.cards-container div {
+  -webkit-column-break-inside: avoid;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+.card {
+  margin: 0 auto;
+  /* Added */
+  float: none;
+  /* Added */
+}
+
 .question {
   font-size: 1.2rem;
   color: black;

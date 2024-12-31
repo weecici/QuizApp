@@ -557,6 +557,7 @@ document.getElementById('surveyForm').addEventListener('submit', (e) => {
 
 
 function renderQuestion() {
+
     if (currentQuestion >= allQuestions.length) {
         partName.innerText = 'Summary';
         retryBtn.style.display = `block`;
@@ -690,8 +691,8 @@ function showHints() {
     let addHint = (hint) => {
         let num = allHints.length + 1
         allHints.push(`
-        <div class="card border border-dark rounded" style="margin-top: 2%;">
-            <img src="assets/${num}.png" class="card-img-top" alt="..." style="">
+        <div class="card border border-dark rounded" style="margin-top: 2%;max-width: 800px;">
+            <img src="assets/${num}.png" class="card-img-top" alt="...">
             <div class="card-body">
                 <h5 class="card-title">Hints ${num}</h5>
                 <p class="card-text" id="hintsContent" style="text-align: left;">${hint}</p>
