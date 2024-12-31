@@ -51,12 +51,11 @@ document.getElementById('surveyForm').addEventListener('submit', (e) => {
                 },
 
                 {
-                    text: `Q2. Mức độ dành thời gian của bạn cho mối quan hệ này?`,
+                    text: `Q2. Bạn dành thời gian của bạn cho mối quan hệ này chủ yếu là để làm gì?`,
                     choices: [
-                        { text: `Rất nhiều thời gian`, scores: [0, 0, 10, 5, 0, 0] },
-                        { text: `Đủ thời gian`, scores: [0, 0, 8, 0, 0, 0] },
-                        { text: `Ít thời gian`, scores: [0, 0, 3, 3, 0, 0] },
-                        { text: `Hầu như không dành thời gian`, scores: [0, 0, 0, 10, 0, 0] },
+                        { text: `Chủ yếu là để trao đổi học tập`, scores: [0, 0, 5, 0, 0, 0] },
+                        { text: `Vừa trao đổi học tập vừa làm những việc ngoài học tập`, scores: [0, 0, 2, 2, 0, 0] },
+                        { text: `Chủ yếu là những chuyện không liên quan đến học tập`, scores: [0, 0, 0, 5, 0, 0] },
                     ],
                 },
 
