@@ -7,7 +7,6 @@ let answers = [];
 let hints = {};
 
 const categories = { M: 0, E: 0, Su: 0, D: 0, St: 0, C: 0 };
-const maxScores = { M: 20, E: 10, Su: 20, D: 15, St: 15, C: 15 };
 
 const surveyContainer = document.getElementById("surveyContainer");
 const resultsDiv = document.getElementById("results");
@@ -629,13 +628,33 @@ document.getElementById('surveyForm').addEventListener('submit', (e) => {
 });
 
 function showResults() {
+
+    const importantScores = { //min, max, mid
+        family: { M: [-27, 40, 2], E: [-20, 65, 9], Su: [-42, 85, 21], D: [-5, 40, 12], St: [-20, 80, 9], C: [-15, 40, 5] },
+        love: { M: [-20, 30, 2], E: [-20, 55, 11], Su: [-40, 65, 16], D: [-10, 60, 17], St: [-30, 65, 4], C: [-10, 25, 5] },
+        friends: { M: [-20, 30, 2], E: [-20, 50, 10], Su: [-35, 60, 15], D: [-10, 60, 17], St: [-30, 65, 4], C: [-10, 25, 5] },
+        teacher: { M: [-25, 35, 2], E: [-30, 53, 9], Su: [-50, 70, 18], D: [-10, 45, 12], St: [-25, 70, 9], C: [-10, 25, 5] },
+        colleague: { M: [-20, 40, 2], E: [-20, 53, 8], Su: [-35, 65, 15], D: [-5, 45, 12], St: [-20, 80, 9], C: [-10, 35, 5] },
+    }
+
     progressBar.style.width = "100%";
     surveyContainer.style.display = "none";
     resultsDiv.style.display = "block";
 
+    const impSco = importantScores[relation]
     const normalizedScores = {};
+
     for (const key in categories) {
-        normalizedScores[key] = categories[key];
+        const arr = impSco[key]
+        if (categories[key] <= arr[2]) {
+            categories[key] = Math.max(arr[0], categories[key])
+            normalizedScores[key] = (categories[key] - arr[0]) / (arr[2] - arr[0]) * 50
+        }
+        else {
+            categories[key] = Math.min(arr[1], categories[key])
+            normalizedScores[key] = (categories[key] - arr[2]) / (arr[1] - arr[2]) * 50 + 50
+        }
+        normalizedScores[key] = Math.round(normalizedScores[key])
     }
 
     console.log(normalizedScores)
@@ -660,13 +679,16 @@ function showResults() {
         },
         options: {
             responsive: true,
-            maintainAspectRatio: true,
-            // scale: {
-            //     ticks: {
-            //         // beginAtZero: true,
-            //         max: 100
-            //     }
-            // }
+            maintainAspectRatio: false,
+            scales: {
+                r: {
+                    angleLines: {
+                        display: false
+                    },
+                    suggestedMin: 0,
+                    suggestedMax: 100
+                }
+            }
         },
     });
 }
